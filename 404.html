@@ -6,14 +6,14 @@
     <meta name="theme-color" content="#4A90E2">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <!-- Для iOS добавляем специальные теги -->
     <meta name="apple-mobile-web-app-title" content="Росал Персонал">
+    
+    <!-- Иконки для iOS -->
     <link rel="apple-touch-icon" href="/icon-192.png">
     <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
     
-    <!-- Подключаем манифест -->
+    <!-- Манифест -->
     <link rel="manifest" href="/manifest.json">
     
     <title>Росал Персонал</title>
@@ -42,12 +42,10 @@
             background: #ffffff;
         }
         
-        /* Скрываем полосу прокрутки */
         ::-webkit-scrollbar {
             display: none;
         }
         
-        /* Для Safari на iOS */
         iframe {
             -webkit-overflow-scrolling: touch;
         }
@@ -57,35 +55,22 @@
     <iframe id="siteFrame" src="https://alcorosal.ru"></iframe>
     
     <script>
-        // Регистрируем Service Worker (для Android)
+        // Регистрируем Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
-                    .then((registration) => {
-                        console.log('✅ Service Worker зарегистрирован');
-                    })
-                    .catch((error) => {
-                        console.log('❌ Ошибка:', error);
-                    });
+                    .then(() => console.log('✅ SW зарегистрирован'))
+                    .catch((err) => console.log('❌ Ошибка SW:', err));
             });
         }
         
-        // Автоматический перезапуск iframe при ошибке
+        // Перезагрузка iframe при ошибке
         const frame = document.getElementById('siteFrame');
         frame.onerror = function() {
             setTimeout(() => {
                 frame.src = 'https://alcorosal.ru';
             }, 3000);
         };
-        
-        // Для iOS: если если iframe не грузится, пробуем перезагрузить
-        setTimeout(() => {
-            try {
-                if (frame.contentWindow.location.href === 'about:blank') {
-                    frame.src = 'https://alcorosal.ru';
-                }
-            } catch(e) {}
-        }, 5000);
     </script>
 </body>
 </html>
