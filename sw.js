@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rosal-personal-v2'; // ИЗМЕНИТЕ ВЕРСИЮ!
+const CACHE_NAME = 'rosal-personal-v3'; // ИЗМЕНИТЕ ВЕРСИЮ!
 const OFFLINE_URL = '/';
 
 const FILES_TO_CACHE = [
