@@ -1,7 +1,6 @@
-const CACHE_NAME = 'rosal-personal-v1';
+const CACHE_NAME = 'rosal-personal-v2'; // ИЗМЕНИТЕ ВЕРСИЮ!
 const OFFLINE_URL = '/';
 
-// Файлы для кэширования
 const FILES_TO_CACHE = [
     '/',
     '/index.html',
@@ -10,19 +9,17 @@ const FILES_TO_CACHE = [
     '/icon-512.png'
 ];
 
-// Установка
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('✅ Кэширование файлов');
+                console.log('✅ Кэширование');
                 return cache.addAll(FILES_TO_CACHE);
             })
             .then(() => self.skipWaiting())
     );
 });
 
-// Активация
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
@@ -38,9 +35,7 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Перехват запросов
 self.addEventListener('fetch', (event) => {
-    // Пропускаем запросы к alcorosal.ru
     if (event.request.url.includes('alcorosal.ru')) {
         return;
     }
