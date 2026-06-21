@@ -7,11 +7,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <!-- Подключаем манифест -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <!-- Для iOS добавляем специальные теги -->
+    <meta name="apple-mobile-web-app-title" content="Росал Персонал">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
     
-    <title>Alcorosal</title>
+    <!-- Подключаем манифест -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <title>Росал Персонал</title>
     
     <style>
         * {
@@ -25,6 +30,8 @@
             height: 100vh;
             width: 100vw;
             background: #ffffff;
+            margin: 0;
+            padding: 0;
         }
         
         #siteFrame {
@@ -35,21 +42,25 @@
             background: #ffffff;
         }
         
-        /* Скрываем полосу прокрутки если она появляется */
+        /* Скрываем полосу прокрутки */
         ::-webkit-scrollbar {
             display: none;
+        }
+        
+        /* Для Safari на iOS */
+        iframe {
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
 <body>
-    <!-- Ваш сайт внутри iframe -->
     <iframe id="siteFrame" src="https://alcorosal.ru"></iframe>
     
     <script>
-        // Регистрируем Service Worker
+        // Регистрируем Service Worker (для Android)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
+                navigator.serviceWorker.register('/sw.js')
                     .then((registration) => {
                         console.log('✅ Service Worker зарегистрирован');
                     })
@@ -66,6 +77,15 @@
                 frame.src = 'https://alcorosal.ru';
             }, 3000);
         };
+        
+        // Для iOS: если если iframe не грузится, пробуем перезагрузить
+        setTimeout(() => {
+            try {
+                if (frame.contentWindow.location.href === 'about:blank') {
+                    frame.src = 'https://alcorosal.ru';
+                }
+            } catch(e) {}
+        }, 5000);
     </script>
 </body>
 </html>
