@@ -1,7 +1,7 @@
-const CACHE_NAME = 'alcorosal-wrapper-v1';
+const CACHE_NAME = 'rosal-personal-v1';
 const OFFLINE_URL = '/';
 
-// Файлы для кэширования (только обёртка)
+// Файлы для кэширования
 const FILES_TO_CACHE = [
     '/',
     '/index.html',
@@ -10,19 +10,19 @@ const FILES_TO_CACHE = [
     '/icon-512.png'
 ];
 
-// Установка: кэшируем обёртку
+// Установка
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('✅ Кэширование обёртки Alcorosal');
+                console.log('✅ Кэширование файлов');
                 return cache.addAll(FILES_TO_CACHE);
             })
             .then(() => self.skipWaiting())
     );
 });
 
-// Активация: чистим старые кэши
+// Активация
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
@@ -40,12 +40,11 @@ self.addEventListener('activate', (event) => {
 
 // Перехват запросов
 self.addEventListener('fetch', (event) => {
-    // Если запрос к вашему сайту alcorosal.ru — пропускаем (не кэшируем)
+    // Пропускаем запросы к alcorosal.ru
     if (event.request.url.includes('alcorosal.ru')) {
-        return; // Пусть загружается как обычно
+        return;
     }
     
-    // Для всех остальных запросов (обёртка) — используем кэш
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
