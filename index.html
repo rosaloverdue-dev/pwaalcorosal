@@ -4,58 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#4A90E2">
+    
+    <!-- 👇 ОСНОВНЫЕ ТЕГИ ДЛЯ IPHONE 👇 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Росал Персонал">
     
-    <!-- Иконки для iOS -->
+    <!-- 👇 ГЛАВНАЯ ИКОНКА ДЛЯ IPHONE (ПУТЬ С /) 👇 -->
     <link rel="apple-touch-icon" href="/icon-192.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
     
-    <!-- Манифест -->
+    <!-- Манифест для Android -->
     <link rel="manifest" href="/manifest.json">
     
     <title>Росал Персонал</title>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            background: #ffffff;
-            margin: 0;
-            padding: 0;
-        }
-        
-        #siteFrame {
-            width: 100vw;
-            height: 100vh;
-            border: none;
-            display: block;
-            background: #ffffff;
-        }
-        
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        
-        iframe {
-            -webkit-overflow-scrolling: touch;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; height: 100vh; width: 100vw; background: #ffffff; margin: 0; padding: 0; }
+        #siteFrame { width: 100vw; height: 100vh; border: none; display: block; background: #ffffff; }
+        ::-webkit-scrollbar { display: none; }
+        iframe { -webkit-overflow-scrolling: touch; }
     </style>
 </head>
 <body>
     <iframe id="siteFrame" src="https://alcorosal.ru"></iframe>
     
     <script>
-        // Регистрируем Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
@@ -64,12 +38,9 @@
             });
         }
         
-        // Перезагрузка iframe при ошибке
         const frame = document.getElementById('siteFrame');
         frame.onerror = function() {
-            setTimeout(() => {
-                frame.src = 'https://alcorosal.ru';
-            }, 3000);
+            setTimeout(() => { frame.src = 'https://alcorosal.ru'; }, 3000);
         };
     </script>
 </body>
